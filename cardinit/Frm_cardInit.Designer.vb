@@ -41,30 +41,34 @@ Partial Class Frm_cardInit
         Me.Radio_RetailCard = New System.Windows.Forms.RadioButton()
         Me.Radio_SaveClubCard = New System.Windows.Forms.RadioButton()
         Me.Timer_FormatCard = New System.Windows.Forms.Timer(Me.components)
-        Me.Label_msgBox = New System.Windows.Forms.Label()
         Me.ListBox_CardUID = New System.Windows.Forms.ListBox()
         Me.Timer_readCardNo = New System.Windows.Forms.Timer(Me.components)
         Me.Button_ClearListData = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Combo_PortName = New System.Windows.Forms.ComboBox()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel_CardSetup.SuspendLayout()
         Me.Panel_saveData.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'But_Stop
         '
-        Me.But_Stop.Location = New System.Drawing.Point(581, 453)
+        Me.But_Stop.Location = New System.Drawing.Point(243, 96)
         Me.But_Stop.Name = "But_Stop"
-        Me.But_Stop.Size = New System.Drawing.Size(191, 34)
+        Me.But_Stop.Size = New System.Drawing.Size(135, 34)
         Me.But_Stop.TabIndex = 0
         Me.But_Stop.Text = "停止(&S)"
         Me.But_Stop.UseVisualStyleBackColor = True
         '
         'Button_Start
         '
-        Me.Button_Start.Location = New System.Drawing.Point(581, 364)
+        Me.Button_Start.Enabled = False
+        Me.Button_Start.Location = New System.Drawing.Point(243, 7)
         Me.Button_Start.Name = "Button_Start"
-        Me.Button_Start.Size = New System.Drawing.Size(191, 42)
+        Me.Button_Start.Size = New System.Drawing.Size(135, 34)
         Me.Button_Start.TabIndex = 0
         Me.Button_Start.Text = "启动(&R)"
         Me.Button_Start.UseVisualStyleBackColor = True
@@ -74,7 +78,7 @@ Partial Class Frm_cardInit
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.Tool_CompanyName, Me.ToolStripStatusLabel2, Me.Tool_CardCount, Me.Tool_msgbox, Me.Tool_statusImage})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 504)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(779, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(675, 22)
         Me.StatusStrip1.TabIndex = 3
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -122,7 +126,8 @@ Partial Class Frm_cardInit
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.Location = New System.Drawing.Point(282, 6)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(490, 346)
+        Me.PictureBox1.Size = New System.Drawing.Size(383, 291)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox1.TabIndex = 4
         Me.PictureBox1.TabStop = False
         '
@@ -131,9 +136,9 @@ Partial Class Frm_cardInit
         Me.Panel_CardSetup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel_CardSetup.Controls.Add(Me.Radio_ReadCard)
         Me.Panel_CardSetup.Controls.Add(Me.Radio_FormatCard)
-        Me.Panel_CardSetup.Location = New System.Drawing.Point(282, 366)
+        Me.Panel_CardSetup.Location = New System.Drawing.Point(6, 7)
         Me.Panel_CardSetup.Name = "Panel_CardSetup"
-        Me.Panel_CardSetup.Size = New System.Drawing.Size(282, 53)
+        Me.Panel_CardSetup.Size = New System.Drawing.Size(231, 53)
         Me.Panel_CardSetup.TabIndex = 5
         '
         'Radio_ReadCard
@@ -141,7 +146,7 @@ Partial Class Frm_cardInit
         Me.Radio_ReadCard.AutoSize = True
         Me.Radio_ReadCard.BackColor = System.Drawing.Color.Transparent
         Me.Radio_ReadCard.ForeColor = System.Drawing.Color.Green
-        Me.Radio_ReadCard.Location = New System.Drawing.Point(159, 17)
+        Me.Radio_ReadCard.Location = New System.Drawing.Point(125, 17)
         Me.Radio_ReadCard.Name = "Radio_ReadCard"
         Me.Radio_ReadCard.Size = New System.Drawing.Size(77, 16)
         Me.Radio_ReadCard.TabIndex = 1
@@ -166,15 +171,15 @@ Partial Class Frm_cardInit
         Me.Panel_saveData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel_saveData.Controls.Add(Me.Radio_RetailCard)
         Me.Panel_saveData.Controls.Add(Me.Radio_SaveClubCard)
-        Me.Panel_saveData.Location = New System.Drawing.Point(282, 435)
+        Me.Panel_saveData.Location = New System.Drawing.Point(6, 76)
         Me.Panel_saveData.Name = "Panel_saveData"
-        Me.Panel_saveData.Size = New System.Drawing.Size(282, 53)
+        Me.Panel_saveData.Size = New System.Drawing.Size(231, 53)
         Me.Panel_saveData.TabIndex = 6
         '
         'Radio_RetailCard
         '
         Me.Radio_RetailCard.AutoSize = True
-        Me.Radio_RetailCard.Location = New System.Drawing.Point(159, 18)
+        Me.Radio_RetailCard.Location = New System.Drawing.Point(125, 18)
         Me.Radio_RetailCard.Name = "Radio_RetailCard"
         Me.Radio_RetailCard.Size = New System.Drawing.Size(95, 16)
         Me.Radio_RetailCard.TabIndex = 0
@@ -197,14 +202,6 @@ Partial Class Frm_cardInit
         '
         Me.Timer_FormatCard.Interval = 500
         '
-        'Label_msgBox
-        '
-        Me.Label_msgBox.BackColor = System.Drawing.Color.Transparent
-        Me.Label_msgBox.Location = New System.Drawing.Point(502, 9)
-        Me.Label_msgBox.Name = "Label_msgBox"
-        Me.Label_msgBox.Size = New System.Drawing.Size(270, 23)
-        Me.Label_msgBox.TabIndex = 7
-        '
         'ListBox_CardUID
         '
         Me.ListBox_CardUID.FormattingEnabled = True
@@ -220,26 +217,53 @@ Partial Class Frm_cardInit
         '
         'Button_ClearListData
         '
-        Me.Button_ClearListData.Location = New System.Drawing.Point(581, 413)
+        Me.Button_ClearListData.Location = New System.Drawing.Point(243, 51)
         Me.Button_ClearListData.Name = "Button_ClearListData"
-        Me.Button_ClearListData.Size = New System.Drawing.Size(191, 34)
+        Me.Button_ClearListData.Size = New System.Drawing.Size(135, 34)
         Me.Button_ClearListData.TabIndex = 0
         Me.Button_ClearListData.Text = "清除列表(&C)"
         Me.Button_ClearListData.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Button_ClearListData)
+        Me.Panel1.Controls.Add(Me.But_Stop)
+        Me.Panel1.Controls.Add(Me.Panel_saveData)
+        Me.Panel1.Controls.Add(Me.Button_Start)
+        Me.Panel1.Controls.Add(Me.Panel_CardSetup)
+        Me.Panel1.Location = New System.Drawing.Point(282, 349)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(383, 141)
+        Me.Panel1.TabIndex = 9
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(282, 315)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(113, 12)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "选择设备通讯端口："
+        '
+        'Combo_PortName
+        '
+        Me.Combo_PortName.FormattingEnabled = True
+        Me.Combo_PortName.Location = New System.Drawing.Point(399, 312)
+        Me.Combo_PortName.Name = "Combo_PortName"
+        Me.Combo_PortName.Size = New System.Drawing.Size(121, 20)
+        Me.Combo_PortName.TabIndex = 11
         '
         'Frm_cardInit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(779, 526)
+        Me.ClientSize = New System.Drawing.Size(675, 526)
+        Me.Controls.Add(Me.Combo_PortName)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ListBox_CardUID)
-        Me.Controls.Add(Me.Label_msgBox)
-        Me.Controls.Add(Me.Panel_saveData)
-        Me.Controls.Add(Me.Panel_CardSetup)
-        Me.Controls.Add(Me.Button_Start)
         Me.Controls.Add(Me.PictureBox1)
-        Me.Controls.Add(Me.Button_ClearListData)
-        Me.Controls.Add(Me.But_Stop)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -253,6 +277,7 @@ Partial Class Frm_cardInit
         Me.Panel_CardSetup.PerformLayout()
         Me.Panel_saveData.ResumeLayout(False)
         Me.Panel_saveData.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -273,10 +298,12 @@ Partial Class Frm_cardInit
     Friend WithEvents Tool_msgbox As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Radio_RetailCard As System.Windows.Forms.RadioButton
     Friend WithEvents Radio_SaveClubCard As System.Windows.Forms.RadioButton
-    Friend WithEvents Label_msgBox As System.Windows.Forms.Label
     Friend WithEvents ListBox_CardUID As System.Windows.Forms.ListBox
     Friend WithEvents Timer_readCardNo As System.Windows.Forms.Timer
     Friend WithEvents Button_ClearListData As System.Windows.Forms.Button
     Friend WithEvents Tool_statusImage As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Combo_PortName As System.Windows.Forms.ComboBox
 
 End Class

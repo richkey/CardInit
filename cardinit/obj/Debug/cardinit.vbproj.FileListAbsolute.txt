@@ -20,3 +20,14 @@ G:\cardInit\cardinit\cardinit\obj\Debug\cardinit.Frm_cardInit.resources
 G:\cardInit\cardinit\cardinit\obj\Debug\cardinit.Resources.resources
 G:\cardInit\cardinit\cardinit\obj\Debug\cardinit.vbproj.GenerateResource.Cache
 G:\cardInit\cardinit\cardinit\obj\Debug\cardinit.exe
+G:\CardInit\cardinit\bin\Debug\cardinit.exe.config
+G:\CardInit\cardinit\obj\Debug\cardinit.exe
+G:\CardInit\cardinit\obj\Debug\cardinit.xml
+G:\CardInit\cardinit\obj\Debug\cardinit.pdb
+G:\CardInit\cardinit\bin\Debug\cardinit.exe
+G:\CardInit\cardinit\bin\Debug\cardinit.pdb
+G:\CardInit\cardinit\bin\Debug\cardinit.xml
+G:\CardInit\cardinit\obj\Debug\cardinit.FrmLogin.resources
+G:\CardInit\cardinit\obj\Debug\cardinit.Frm_cardInit.resources
+G:\CardInit\cardinit\obj\Debug\cardinit.Resources.resources
+G:\CardInit\cardinit\obj\Debug\cardinit.vbproj.GenerateResource.Cache

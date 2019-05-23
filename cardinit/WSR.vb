@@ -2,7 +2,7 @@ Module WSR
 
 
     Public Ret As Integer
-    Public Const Port As Integer = 0
+    Public Port As Integer = 0
     Public URL As String = "richkey.3322.org"
     Public AddresName As String
     Public CardNo As Double

@@ -1,35 +1,39 @@
-﻿
+﻿Imports System.IO.Ports
 
 Public Class Frm_cardInit
     Dim saveFlag As Integer
     Dim checkCardNo As String
     Private Sub Button_Start_Click(sender As Object, e As EventArgs) Handles Button_Start.Click
-        'If Radio_FormatCard.Checked = True Then
-        '    Timer_FormatCard.Enabled = True
-        'End If
+        If Radio_FormatCard.Checked = True Then
+            Timer_FormatCard.Enabled = True
+            Timer_readCardNo.Enabled = False
+        End If
         If Radio_ReadCard.Checked = True Then
-            readCardNoSave()
+            Timer_readCardNo.Enabled = True
+            Timer_FormatCard.Enabled = False
         End If
 
     End Sub
     Private Sub readCardNoSave() '读卡并存入数据库
         Timer_readCardNo.Enabled = False
-        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led.png")
+
 
         Dim cardNo As String = GetCardNo() '获取UID
 
         If cardNo = "" Then                 '检查是否读卡成功
             Timer_readCardNo.Enabled = True
+            Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
             Exit Sub
         End If
 
         If checkCardNo = cardNo Then       '检查读卡器上的UID码是否重复
             Tool_msgbox.Text = "数据卡重复，请不要重复读取！"
             Timer_readCardNo.Enabled = True
+            Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
             Exit Sub
         End If
+        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led.png")
 
-        ListBox_CardUID.Items.Add(cardNo)
         Dim checkByCradNoStr As String = "SELECT * FROM CardUIDInfo WHERE  UID='" & cardNo & "'"
         Dim saveSql As String = "INSERT INTO CardUIDInfo(UID)VALUES ('" & cardNo & "')"
         If saveFlag = 1 Then
@@ -38,14 +42,16 @@ Public Class Frm_cardInit
         End If
         Dim checkByCardRs As DataTable = DbOperation.DBOperate(checkByCradNoStr)  '检测数据表中是否有重复UID
         If checkByCardRs.Rows.Count > 0 Then
-            Label_msgBox.Text = "此卡已经存入数据表中"
-            Label_msgBox.BackColor = Color.Red
+            Tool_msgbox.Text = "此卡已经存入数据表中"
+            Tool_msgbox.BackColor = Color.Red
             Timer_readCardNo.Enabled = True
+            Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
             Exit Sub
         End If
         DbOperation.DBOperate(saveSql)    '存入数据表
         checkCardNo = cardNo
         Timer_readCardNo.Enabled = True
+        ListBox_CardUID.Items.Add(cardNo)
         Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
 
     End Sub
@@ -54,7 +60,7 @@ Public Class Frm_cardInit
     '---------------格式化IC卡并存入数据库-------------------------
     Private Sub CardFormatInit()
         Timer_FormatCard.Enabled = False
-        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led.png")
+        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
         Dim cardNo As String = GetCardNo() '获取UID
 
         If cardNo = "" Then                 '检查是否读卡成功
@@ -67,8 +73,8 @@ Public Class Frm_cardInit
             Timer_FormatCard.Enabled = True
             Exit Sub
         End If
+        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led.png")
 
-        ListBox_CardUID.Items.Add(cardNo)
         Dim checkByCradNoStr As String = "SELECT * FROM CardUIDInfo WHERE  UID='" & cardNo & "'"
         Dim saveSql As String = "INSERT INTO CardUIDInfo(UID)VALUES ('" & cardNo & "')"
         If saveFlag = 1 Then
@@ -77,8 +83,6 @@ Public Class Frm_cardInit
         End If
         Dim checkByCardRs As DataTable = DbOperation.DBOperate(checkByCradNoStr)  '检测数据表中是否有重复UID
         If checkByCardRs.Rows.Count > 0 Then
-            Label_msgBox.Text = "此卡已经存入数据表中"
-            Label_msgBox.BackColor = Color.Red
             Timer_FormatCard.Enabled = True
             Exit Sub
         End If
@@ -112,21 +116,24 @@ Public Class Frm_cardInit
         DbOperation.DBOperate(saveSql)    '存入数据表
         checkCardNo = cardNo
         Timer_FormatCard.Enabled = False
-        Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
+        ListBox_CardUID.Items.Add(cardNo)
+
     End Sub
 
     Private Sub Radio_SaveClubCard_CheckedChanged(sender As Object, e As EventArgs) Handles Radio_SaveClubCard.CheckedChanged, Radio_RetailCard.CheckedChanged
         If Radio_SaveClubCard.Checked = True Then
-            Label_msgBox.Text = "当前IC卡数据自动写入到《会员卡库》"
+            Tool_msgbox.Text = "自动写入到《会员卡库》"
             saveFlag = 0
         End If
         If Radio_RetailCard.Checked = True Then
-            Label_msgBox.Text = "当前IC卡数据自动写入到《零售卡库》"
+            Tool_msgbox.Text = "自动写入到《零售卡库》"
             saveFlag = 1
         End If
+        Button_Start.Enabled = True
     End Sub
     Private Sub Frm_cardInit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Tool_CompanyName.Text = AddresName
+        PortNames()
     End Sub
 
 
@@ -137,10 +144,6 @@ Public Class Frm_cardInit
     End Sub
 
     Private Sub Timer_Start_Tick(sender As Object, e As EventArgs) Handles Timer_FormatCard.Tick
-        Tool_CardCount.Text += 1
-    End Sub
-
-    Private Sub Button_SaveClubCard_Click(sender As Object, e As EventArgs)
         CardFormatInit()
     End Sub
 
@@ -155,6 +158,21 @@ Public Class Frm_cardInit
         Timer_FormatCard.Enabled = False
         Timer_readCardNo.Enabled = False
     End Sub
-
+    Private Sub PortNames()
+        Combo_PortName.Items.Add("HID")
+        For Each s As String In SerialPort.GetPortNames()
+            Combo_PortName.Items.Add(s)
+        Next
+        Combo_PortName.SelectedIndex = 0
+    End Sub
  
+    Private Sub Combo_PortName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Combo_PortName.SelectedIndexChanged
+        Dim comName As String = Combo_PortName.Text
+        If comName.Length > 3 Then
+            Port = CInt(comName.Substring(3, 1))
+        Else
+            Port = 0
+        End If
+
+    End Sub
 End Class

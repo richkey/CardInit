@@ -1,6 +1,6 @@
 ﻿Public Class FrmLogin
     Const userName As String = "richkey"
-    Const password As String = "515200"
+    Const password As String = "2368406333"
     Private Sub Button_Quit_Click(sender As Object, e As EventArgs) Handles Button_Quit.Click
         End
     End Sub
