@@ -29,6 +29,7 @@ Partial Class Frm_cardInit
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Tool_CompanyName = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Tool_userName = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Tool_CardCount = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Tool_msgbox = New System.Windows.Forms.ToolStripStatusLabel()
@@ -47,6 +48,8 @@ Partial Class Frm_cardInit
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Combo_PortName = New System.Windows.Forms.ComboBox()
+        Me.Button_TelTest = New System.Windows.Forms.Button()
+        Me.Tool_oplog = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel_CardSetup.SuspendLayout()
@@ -75,10 +78,10 @@ Partial Class Frm_cardInit
         '
         'StatusStrip1
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.Tool_CompanyName, Me.ToolStripStatusLabel2, Me.Tool_CardCount, Me.Tool_msgbox, Me.Tool_statusImage})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 504)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.Tool_CompanyName, Me.Tool_userName, Me.ToolStripStatusLabel2, Me.Tool_CardCount, Me.Tool_msgbox, Me.Tool_statusImage, Me.Tool_oplog})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 494)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(675, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(684, 22)
         Me.StatusStrip1.TabIndex = 3
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -92,8 +95,20 @@ Partial Class Frm_cardInit
         '
         Me.Tool_CompanyName.AutoSize = False
         Me.Tool_CompanyName.Name = "Tool_CompanyName"
-        Me.Tool_CompanyName.Size = New System.Drawing.Size(180, 17)
+        Me.Tool_CompanyName.Size = New System.Drawing.Size(100, 17)
         Me.Tool_CompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Tool_userName
+        '
+        Me.Tool_userName.AutoSize = False
+        Me.Tool_userName.BackColor = System.Drawing.Color.LemonChiffon
+        Me.Tool_userName.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.Tool_userName.ForeColor = System.Drawing.Color.Red
+        Me.Tool_userName.Name = "Tool_userName"
+        Me.Tool_userName.Size = New System.Drawing.Size(60, 17)
+        Me.Tool_userName.Text = "Null"
         '
         'ToolStripStatusLabel2
         '
@@ -240,7 +255,7 @@ Partial Class Frm_cardInit
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(282, 315)
+        Me.Label1.Location = New System.Drawing.Point(282, 320)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(113, 12)
         Me.Label1.TabIndex = 10
@@ -249,16 +264,32 @@ Partial Class Frm_cardInit
         'Combo_PortName
         '
         Me.Combo_PortName.FormattingEnabled = True
-        Me.Combo_PortName.Location = New System.Drawing.Point(399, 312)
+        Me.Combo_PortName.Location = New System.Drawing.Point(391, 314)
         Me.Combo_PortName.Name = "Combo_PortName"
-        Me.Combo_PortName.Size = New System.Drawing.Size(121, 20)
+        Me.Combo_PortName.Size = New System.Drawing.Size(129, 20)
         Me.Combo_PortName.TabIndex = 11
+        '
+        'Button_TelTest
+        '
+        Me.Button_TelTest.Location = New System.Drawing.Point(529, 312)
+        Me.Button_TelTest.Name = "Button_TelTest"
+        Me.Button_TelTest.Size = New System.Drawing.Size(129, 23)
+        Me.Button_TelTest.TabIndex = 12
+        Me.Button_TelTest.Text = "测试通讯"
+        Me.Button_TelTest.UseVisualStyleBackColor = True
+        '
+        'Tool_oplog
+        '
+        Me.Tool_oplog.Name = "Tool_oplog"
+        Me.Tool_oplog.Size = New System.Drawing.Size(56, 17)
+        Me.Tool_oplog.Text = "操作日志"
         '
         'Frm_cardInit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(675, 526)
+        Me.ClientSize = New System.Drawing.Size(684, 516)
+        Me.Controls.Add(Me.Button_TelTest)
         Me.Controls.Add(Me.Combo_PortName)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Panel1)
@@ -305,5 +336,8 @@ Partial Class Frm_cardInit
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Combo_PortName As System.Windows.Forms.ComboBox
+    Friend WithEvents Button_TelTest As System.Windows.Forms.Button
+    Friend WithEvents Tool_userName As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents Tool_oplog As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

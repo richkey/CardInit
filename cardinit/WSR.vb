@@ -1,6 +1,13 @@
+Imports System
+Imports System.Management
+Imports System.Security.Cryptography
+Imports System.Text
+Imports System.IO
+
 Module WSR
-
-
+    Public Authority As String = ""
+    Public User_Name As String = ""
+    Public Operator_Name As String = ""
     Public Ret As Integer
     Public Port As Integer = 0
     Public URL As String = "richkey.3322.org"
@@ -158,6 +165,95 @@ Module WSR
         End If
         ws_closePort(Port)
     End Function
+    Public Sub checkCom() '检测串口通讯
+        ws_openPort(Port)
+        ws_beep(Port)
+        ws_closePort(Port)
+    End Sub
+
+    ''''''''''''''''登录密码加密'''''''''''''''''''''
+    Public Function EncryptDes(ByVal SourceStr As String, ByVal myKey As String, ByVal myIV As String) As String '使用DES对称加密    
+        Try
+            Dim des As New DESCryptoServiceProvider 'DES算法   
+            Dim KeyLength As Integer
+            KeyLength = des.Key.Length
+            If (myKey.Length > KeyLength) Then
+                myKey = myKey.Substring(0, KeyLength)
+            ElseIf (myKey.Length < KeyLength) Then
+                myKey = myKey.PadRight(KeyLength, "D"c)
+            End If
+            KeyLength = des.IV.Length
+            If (myIV.Length > KeyLength) Then
+                myIV = myIV.Substring(0, KeyLength)
+            ElseIf (myIV.Length < KeyLength) Then
+                myIV = myIV.PadRight(KeyLength, "T"c)
+            End If
+            Dim inputByteArray As Byte()
+            inputByteArray = Encoding.UTF8.GetBytes(SourceStr)
+            des.Key = Encoding.UTF8.GetBytes(myKey)
+            des.IV = Encoding.UTF8.GetBytes(myIV)
+            Dim ms As New MemoryStream
+            Dim cs As New CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write)
+            Dim sw As New StreamWriter(cs)
+            sw.Write(SourceStr)
+            sw.Flush()
+            cs.FlushFinalBlock()
+            ms.Flush()
+            Return Convert.ToBase64String(ms.GetBuffer(), 0, Convert.ToInt32(ms.Length))
+        Catch
+            Return SourceStr
+        End Try
+    End Function
+
+    Public Function DecryptDes(ByVal SourceStr As String, ByVal myKey As String, ByVal myIV As String) As String    '使用标准DES对称解密
+        Try
+            Dim des As New DESCryptoServiceProvider 'DES算法 
+            Dim KeyLength As Integer
+            KeyLength = des.Key.Length
+            If (myKey.Length > KeyLength) Then
+                myKey = myKey.Substring(0, KeyLength)
+            ElseIf (myKey.Length < KeyLength) Then
+                myKey = myKey.PadRight(KeyLength, "D"c)
+            End If
+            KeyLength = des.IV.Length
+            If (myIV.Length > KeyLength) Then
+                myIV = myIV.Substring(0, KeyLength)
+            ElseIf (myIV.Length < KeyLength) Then
+                myIV = myIV.PadRight(KeyLength, "T"c)
+            End If
+            des.Key = Encoding.UTF8.GetBytes(myKey) 'myKey DES用8个字符，TripleDES要24个字符   
+            des.IV = Encoding.UTF8.GetBytes(myIV) 'myIV DES用8个字符，TripleDES要24个字符  
+            Dim buffer As Byte() = Convert.FromBase64String(SourceStr)
+            Dim ms As New MemoryStream(buffer)
+            Dim cs As New CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Read)
+            Dim sr As New StreamReader(cs)
+            Return sr.ReadToEnd()
+        Catch
+            Return ControlChars.Tab
+        End Try
+    End Function
+    ''''''''''获取CPUID''''''''''''
+    Public Function getCPUID() As String
+        Dim Wmi As New System.Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
+        Dim cpuId As String = ""
+        For Each WmiObj As ManagementObject In Wmi.Get
+            cpuId = WmiObj("ProcessorId")
+        Next
+        Return cpuId.Trim
+    End Function
+
+    '''''''''''''''''日志记录''''''''''''''''''
+    Public Function record_Oplog(ByVal sqlstr As String) As Boolean
+        If sqlstr = "" Then
+            Return False
+            Exit Function
+        End If
+        Dim logRecordStr As String = "INSERT INTO cardInitOplog(userName,operator,loginForm,eventHandling)VALUES('" + User_Name + "','" + Operator_Name + "'," + sqlstr + ")"
+
+        DbOperation.systemControl(logRecordStr)
+        Return True
+    End Function
+
 End Module
 
 

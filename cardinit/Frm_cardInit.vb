@@ -3,6 +3,7 @@
 Public Class Frm_cardInit
     Dim saveFlag As Integer
     Dim checkCardNo As String
+    Dim logStr As String = ""
     Private Sub Button_Start_Click(sender As Object, e As EventArgs) Handles Button_Start.Click
         If Radio_FormatCard.Checked = True Then
             Timer_FormatCard.Enabled = True
@@ -16,10 +17,7 @@ Public Class Frm_cardInit
     End Sub
     Private Sub readCardNoSave() '读卡并存入数据库
         Timer_readCardNo.Enabled = False
-
-
         Dim cardNo As String = GetCardNo() '获取UID
-
         If cardNo = "" Then                 '检查是否读卡成功
             Timer_readCardNo.Enabled = True
             Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
@@ -27,9 +25,10 @@ Public Class Frm_cardInit
         End If
 
         If checkCardNo = cardNo Then       '检查读卡器上的UID码是否重复
-            Tool_msgbox.Text = "数据卡重复，请不要重复读取！"
+            Tool_msgbox.Text = "IC卡重复，请不要重复读取！"
             Timer_readCardNo.Enabled = True
             Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
+            Timer_readCardNo.Enabled = True
             Exit Sub
         End If
         Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led.png")
@@ -42,10 +41,11 @@ Public Class Frm_cardInit
         End If
         Dim checkByCardRs As DataTable = DbOperation.DBOperate(checkByCradNoStr)  '检测数据表中是否有重复UID
         If checkByCardRs.Rows.Count > 0 Then
-            Tool_msgbox.Text = "此卡已经存入数据表中"
+            Tool_msgbox.Text = "此卡已在数据表中，请不要重复操作！"
             Tool_msgbox.BackColor = Color.Red
             Timer_readCardNo.Enabled = True
             Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
+            Timer_readCardNo.Enabled = True
             Exit Sub
         End If
         DbOperation.DBOperate(saveSql)    '存入数据表
@@ -53,7 +53,7 @@ Public Class Frm_cardInit
         Timer_readCardNo.Enabled = True
         ListBox_CardUID.Items.Add(cardNo)
         Tool_statusImage.Image = Image.FromFile(Application.StartupPath & "\led_Green.png")
-
+        Tool_CardCount.Text = ListBox_CardUID.Items.Count
     End Sub
 
 
@@ -65,6 +65,7 @@ Public Class Frm_cardInit
 
         If cardNo = "" Then                 '检查是否读卡成功
             Timer_FormatCard.Enabled = True
+            Tool_msgbox.Text = "读卡程序准备就绪！"
             Exit Sub
         End If
 
@@ -111,28 +112,35 @@ Public Class Frm_cardInit
         For i = 3 To 63 Step 4
             Ret = ws_writeBlock_Hex(Port, i, Data32)
         Next i
-        ListBox_CardUID.Items.Add(CardNo)
         '------------存入数据库----------------------------------
         DbOperation.DBOperate(saveSql)    '存入数据表
         checkCardNo = cardNo
-        Timer_FormatCard.Enabled = False
+        Timer_FormatCard.Enabled = True
         ListBox_CardUID.Items.Add(cardNo)
+        Tool_CardCount.Text = ListBox_CardUID.Items.Count
 
     End Sub
 
     Private Sub Radio_SaveClubCard_CheckedChanged(sender As Object, e As EventArgs) Handles Radio_SaveClubCard.CheckedChanged, Radio_RetailCard.CheckedChanged
         If Radio_SaveClubCard.Checked = True Then
             Tool_msgbox.Text = "自动写入到《会员卡库》"
+            logStr = "'" + Me.Text + "','存入会员卡！'"
+            record_Oplog(logStr)
             saveFlag = 0
         End If
         If Radio_RetailCard.Checked = True Then
             Tool_msgbox.Text = "自动写入到《零售卡库》"
+            logStr = "'" + Me.Text + "','存入零售卡！'"
+            record_Oplog(logStr)
             saveFlag = 1
         End If
         Button_Start.Enabled = True
     End Sub
     Private Sub Frm_cardInit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Tool_CompanyName.Text = AddresName
+        Tool_userName.Text = User_Name.Trim
+        logStr = "'" + Me.Text + "','企业化IC卡进入成功！'"
+        record_Oplog(logStr)
         PortNames()
     End Sub
 
@@ -174,5 +182,39 @@ Public Class Frm_cardInit
             Port = 0
         End If
 
+    End Sub
+
+
+   
+    Private Sub Button_TelTest_Click(sender As Object, e As EventArgs) Handles Button_TelTest.Click
+        checkCom()
+    End Sub
+
+    Private Sub Tool_userName_Click(sender As Object, e As EventArgs) Handles Tool_userName.Click
+        If Authority <> "A" Then
+            MsgBox("权限不足，如需要调整用户信息，请通知系统管理员！", MsgBoxStyle.OkOnly, "错误提示")
+            logStr = "'" + Me.Text + "','打开用户信息管理因权限不足而失败！'"
+            record_Oplog(logStr)
+            Exit Sub
+        Else
+            logStr = "'" + Me.Text + "','打开用户信息管理成功！'"
+            record_Oplog(logStr)
+            workerSetting.Show()
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub Tool_oplog_Click(sender As Object, e As EventArgs) Handles Tool_oplog.Click
+        If Authority <> "A" Then
+            MsgBox("权限不足，操作日志须要系统管理权限！", MsgBoxStyle.OkOnly, "错误提示")
+            logStr = "'" + Me.Text + "','打开操作日志因权限不足而失败！'"
+            record_Oplog(logStr)
+            Exit Sub
+        Else
+            logStr = "'" + Me.Text + "','打开操作日志成功！'"
+            record_Oplog(logStr)
+            Form_Oplog.Show()
+            Me.Close()
+        End If
     End Sub
 End Class

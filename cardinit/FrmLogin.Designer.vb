@@ -53,15 +53,19 @@ Partial Class FrmLogin
         '
         'ComboBox_addresName
         '
+        Me.ComboBox_addresName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox_addresName.FormattingEnabled = True
-        Me.ComboBox_addresName.Location = New System.Drawing.Point(120, 31)
+        Me.ComboBox_addresName.ImeMode = System.Windows.Forms.ImeMode.Off
+        Me.ComboBox_addresName.Items.AddRange(New Object() {"九龙店", "中交店"})
+        Me.ComboBox_addresName.Location = New System.Drawing.Point(105, 27)
         Me.ComboBox_addresName.Name = "ComboBox_addresName"
-        Me.ComboBox_addresName.Size = New System.Drawing.Size(184, 20)
+        Me.ComboBox_addresName.Size = New System.Drawing.Size(220, 20)
         Me.ComboBox_addresName.TabIndex = 0
         '
         'Button_Quit
         '
-        Me.Button_Quit.Location = New System.Drawing.Point(229, 186)
+        Me.Button_Quit.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Button_Quit.Location = New System.Drawing.Point(233, 186)
         Me.Button_Quit.Name = "Button_Quit"
         Me.Button_Quit.Size = New System.Drawing.Size(75, 23)
         Me.Button_Quit.TabIndex = 4
@@ -71,7 +75,7 @@ Partial Class FrmLogin
         'Button_Enter
         '
         Me.Button_Enter.Enabled = False
-        Me.Button_Enter.Location = New System.Drawing.Point(50, 186)
+        Me.Button_Enter.Location = New System.Drawing.Point(52, 186)
         Me.Button_Enter.Name = "Button_Enter"
         Me.Button_Enter.Size = New System.Drawing.Size(75, 23)
         Me.Button_Enter.TabIndex = 3
@@ -81,7 +85,7 @@ Partial Class FrmLogin
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(48, 136)
+        Me.Label2.Location = New System.Drawing.Point(34, 133)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(65, 12)
         Me.Label2.TabIndex = 5
@@ -90,7 +94,7 @@ Partial Class FrmLogin
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(48, 35)
+        Me.Label3.Location = New System.Drawing.Point(34, 35)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(65, 12)
         Me.Label3.TabIndex = 6
@@ -99,7 +103,7 @@ Partial Class FrmLogin
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(48, 90)
+        Me.Label1.Location = New System.Drawing.Point(34, 87)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(65, 12)
         Me.Label1.TabIndex = 6
@@ -109,24 +113,26 @@ Partial Class FrmLogin
         '
         Me.TextBox_password.Enabled = False
         Me.TextBox_password.ImeMode = System.Windows.Forms.ImeMode.Off
-        Me.TextBox_password.Location = New System.Drawing.Point(119, 133)
+        Me.TextBox_password.Location = New System.Drawing.Point(104, 130)
         Me.TextBox_password.Name = "TextBox_password"
         Me.TextBox_password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.TextBox_password.Size = New System.Drawing.Size(185, 21)
+        Me.TextBox_password.Size = New System.Drawing.Size(221, 21)
         Me.TextBox_password.TabIndex = 2
         '
         'TextBox_userName
         '
         Me.TextBox_userName.Enabled = False
-        Me.TextBox_userName.Location = New System.Drawing.Point(119, 87)
+        Me.TextBox_userName.Location = New System.Drawing.Point(104, 84)
         Me.TextBox_userName.Name = "TextBox_userName"
-        Me.TextBox_userName.Size = New System.Drawing.Size(185, 21)
+        Me.TextBox_userName.Size = New System.Drawing.Size(221, 21)
         Me.TextBox_userName.TabIndex = 1
         '
         'FrmLogin
         '
+        Me.AcceptButton = Me.Button_Enter
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.Button_Quit
         Me.ClientSize = New System.Drawing.Size(552, 306)
         Me.Controls.Add(Me.Panel1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -134,7 +140,7 @@ Partial Class FrmLogin
         Me.MinimizeBox = False
         Me.Name = "FrmLogin"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "用户登录"
+        Me.Text = "系统登录"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
